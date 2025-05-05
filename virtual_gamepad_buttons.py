@@ -500,7 +500,6 @@ def neurosity_stream_runner():
 
             try:
                 logging.info("Attempting to subscribe to Predictions...")
-                local_preds_unsub = neurosity.predictions(handle_kinesis)
                 predictions_unsubscribe = local_preds_unsub
                 subscriptions["predictions"] = True
                 logging.info("Predictions subscribed.")
