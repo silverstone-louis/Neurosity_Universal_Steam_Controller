@@ -3,11 +3,9 @@ This project uses a Neurosity Crown BCI device to translate detected mental comm
 
 The model I am providing/using is an XGBOOST model trained on the data provided in the following (https://github.com/neurosity/sw-kinesis-ai). Training and retraining scripts are available here (http://placeholder.com-volunteer-project).
 
-I'm including the generalized model as part of this project. Perhaps through retraining, you can improve on my results. 
+I'm including the generalized model as part of this project. Perhaps through retraining, you can improve on my results. extract kinesis_model_and_pkl_to_unzip.zip in the project working directory.
 
-The script also creates a virtual Xbox 360 controller that should be automatically recognized by steam. Just map the controls in the game to script. Mapping 'push' to 'fireball' in Oblivion remastered and 'left_arm' to 'left mouse button' is a quick way to add thought commands to a AAA game. 
-
-**MVP Goal Achieved:** Successfully maps the "Push" command spike to a 'C' key press and "Left_Arm" to a left mouse click, usable to map Kinesis Commands to the game Oblivion Remastered. Should work with any steam game. Rebind the buttons and clicks in the script however you want. 
+The script creates a virtual Xbox 360 controller that should be automatically recognized by steam. Just map the controls in the game to script. Mapping 'push' to 'fireball' in Oblivion remastered and 'left_arm' to 'left mouse button' is a quick way to add thought commands to a AAA game. 
 
 ## Features
 
@@ -24,6 +22,7 @@ The script also creates a virtual Xbox 360 controller that should be automatical
 **Hardware:**
 
 * Neurosity Crown BCI device
+* GPU For Local Inference
 
 **Software:**
 
@@ -49,7 +48,8 @@ The script also creates a virtual Xbox 360 controller that should be automatical
         python -m venv .env # Creates a virtual environment named '.env'
         ```
     * Activate the virtual environment:
-        * **Windows (cmd/powershell):** `.\.env\Scripts\activate`
+        * **Windows (cmd/powershell):** from the same working directory as your .env folder 
+        env\Scripts\Activate.ps1
         * **macOS/Linux (bash/zsh):** `source .env/bin/activate`
     * You should see `(.env)` appear at the beginning of your terminal prompt.
 
@@ -74,16 +74,16 @@ The script also creates a virtual Xbox 360 controller that should be automatical
     * Replace the placeholder values with your actual credentials.
 
 6.  **Place Required Files:**
-    * Ensure the following files are in the same directory as the main Python script (`bci_multi_action_controller.py` or similar):
+    * Ensure the following files are in the same directory as the main Python script (`virtual_gamepad_buttons.py` or similar):
         * `filterer.py` (The EEG filtering logic)
         * `kinesis_xgboost_model_softprob.json` (Your trained XGBoost model)
         * `kinesis_scaler.pkl` (Your trained scaler)
         * `.env` (The credentials file you just created)
-        * `oblivion_monitor.html` or similar for monitoring.
+        * `oblivion_monitor.html` click on it while running the controller to see levels in real time.
 
 ## Configuration
 
-Open the main Python script (`bci_multi_action_controller.py` or similar name) in a text editor:
+Open the main Python script (`virtual_gamepad_buttons.py` or similar name) in a text editor:
 
 1.  **Command Actions (`COMMAND_ACTIONS` Dictionary):**
     * This dictionary defines which mental command triggers which action.
@@ -95,9 +95,11 @@ for mouse clicks (use `Button.right`, `Button.middle` as needed).
 
     * **Comment out lines** (using `#`) for commands you don't want to activate.
 
+    I've found 2 or 3 commands works ok but too many at once causes overlap.
+
 
 2.  **Spike Detection Parameters:**
-    * Adjust `PROBABILITY_HISTORY_LENGTH`, `SPIKE_DELTA_THRESHOLD`, `SPIKE_ACTIVATION_THRESHOLD`, and `TRIGGER_COOLDOWN` near the top of the script to fine-tune sensitivity and prevent accidental triggers. Experimentation is key!
+    * Adjust `PROBABILITY_HISTORY_LENGTH`, `SPIKE_DELTA_THRESHOLD`, `SPIKE_ACTIVATION_THRESHOLD`, and `TRIGGER_COOLDOWN` near the top of the script to fine-tune sensitivity and prevent accidental triggers. You will need to fiddle with this a lot. Write a better version as you go. 
 
 3. **Replace information in the .env file with your credentials (Neurosity device ID, email, and Password)
 
@@ -107,7 +109,7 @@ for mouse clicks (use `Button.right`, `Button.middle` as needed).
 2.  **If you're having trouble with mouse clicks, try running as admin/sudo. Works fine for me as a regular user on windows 11.
 3.  **Execute the Script:**
     ```bash
-    python bci_multi_action_controller.py # Or your script's filename
+    python virtual_gamepad_buttons.py # Or your script's filename
     ```
 4.  **Check Output:** Look for log messages indicating successful initialization of components (SDK login, model loading, controllers) and the start of the Flask server.
 
@@ -120,9 +122,10 @@ for mouse clicks (use `Button.right`, `Button.middle` as needed).
 5.  **Game Configuration:**
     * Launch your game (e.g., Oblivion).
     * The game should now receive keyboard/mouse inputs triggered by your BCI commands via the script.
-    * Steam Input might try to manage the virtual controller. You may need to adjust the Steam Input configuration for the game to ensure it doesn't interfere with the direct keyboard/mouse inputs, or configure it appropriately if you plan to map BCI commands to virtual gamepad buttons in the future. For this keyboard/mouse setup, ensuring Steam Input uses a "Keyboard (WASD) and Mouse" template for the game might be simplest.
+    
+    
 
-## Monitoring (Optional)
+## Monitoring 
 
 1.  While the Python script is running, open the `oblivion_monitor.html` file (or similar provided HTML file) in your web browser.
 2.  It should connect to the WebSocket server run by the Python script and display real-time prediction probabilities, helping you visualize the BCI output and debug the spike detection.
