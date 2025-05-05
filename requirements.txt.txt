@@ -1,0 +1,29 @@
+# Python package requirements for the Neurosity BCI Controller project
+
+# Core BCI interaction
+neurosity-sdk
+
+# Environment variable loading
+python-dotenv
+
+# Numerical computing and data handling
+numpy
+scipy # Required by filterer.py
+
+# Machine Learning (Model & Scaler)
+xgboost
+scikit-learn # For loading the scaler (.pkl) and used by filterer.py
+
+# Web server and WebSocket communication
+Flask
+Flask-SocketIO
+
+# Input simulation (Keyboard & Mouse)
+pynput
+
+# Virtual Gamepad emulation
+vgamepad
+
+# Note: Specific versions are not pinned here. For greater reproducibility,
+# you can generate exact versions using 'pip freeze > requirements.txt'
+# in your working virtual environment after installing all packages.
