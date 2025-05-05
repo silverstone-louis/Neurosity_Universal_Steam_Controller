@@ -3,7 +3,7 @@ This project uses a Neurosity Crown BCI device to translate detected mental comm
 
 The model I am providing/using is an XGBOOST model trained on the data provided in the following (https://github.com/neurosity/sw-kinesis-ai). Training and retraining scripts are available here (http://placeholder.com-volunteer-project).
 
-I'm including the generalized model as part of this project. Perhaps through retraining, you can improve on my results. extract kinesis_model_and_pkl_to_unzip.zip in the project working directory.
+I'm including the generalized model as part of this project. Perhaps through retraining, you can improve on my results. 
 
 The script creates a virtual Xbox 360 controller that should be automatically recognized by steam. Just map the controls in the game to script. Mapping 'push' to 'fireball' in Oblivion remastered and 'left_arm' to 'left mouse button' is a quick way to add thought commands to a AAA game. 
 
@@ -72,6 +72,8 @@ The script creates a virtual Xbox 360 controller that should be automatically re
         NEUROSITY_PASSWORD=your_neurosity_login_password
         ```
     * Replace the placeholder values with your actual credentials.
+  
+    * extract kinesis_model_and_pkl_to_unzip.zip in the project working directory.
 
 6.  **Place Required Files:**
     * Ensure the following files are in the same directory as the main Python script (`virtual_gamepad_buttons.py` or similar):
