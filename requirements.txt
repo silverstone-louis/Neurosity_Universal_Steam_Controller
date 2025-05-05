@@ -1,7 +1,7 @@
 # Python package requirements for the Neurosity BCI Controller project
 
 # Core BCI interaction
-neurosity-sdk
+neurosity
 
 # Environment variable loading
 python-dotenv
